@@ -105,7 +105,6 @@ const Buttons = (props) => {
   return (
     <div>
       <button onClick={props.handlePrevious}>Previous</button>
-      {/* Onclick increment page state by one */}
       <button onClick={props.handleNext}>Next</button>
     </div>
   );
@@ -120,8 +119,8 @@ function App() {
   const [currentTab, setCurrentTab] = useState("episodes");
 
   const charactersUrl = `https://rickandmortyapi.com/api/character/?page=${page}`;
-  const episodesUrl = "https://rickandmortyapi.com/api/episode";
-  const locationsUrl = "https://rickandmortyapi.com/api/location";
+  const episodesUrl = `https://rickandmortyapi.com/api/episode?page=${page}`;
+  const locationsUrl = `https://rickandmortyapi.com/api/location?page=${page}`;
 
   const filterCharacters = (event) => {
     //! Will be used to filter characters
@@ -133,6 +132,10 @@ function App() {
     const response = await fetch(episodesUrl);
     const data = await response.json();
     console.log(data);
+    if (data.error) {
+      setPage(page - 1);
+      return;
+    }
     setEpisodes(data.results);
     setCurrentTab("episodes");
   };
@@ -156,14 +159,40 @@ function App() {
   const handleNext = () => {
     setPage(page + 1);
     clearResults();
-    fetchCharacters();
+
+    switch (currentTab) {
+      case "episodes":
+        fetchEpisodes();
+        break;
+      case "locations":
+        fetchLocations();
+        break;
+      case "characters":
+        fetchCharacters();
+        break;
+      default:
+        break;
+    }
   };
 
   const handlePrevious = () => {
     if (page > 1) {
       setPage(page - 1);
       clearResults();
-      fetchCharacters();
+
+      switch (currentTab) {
+        case "episodes":
+          fetchEpisodes();
+          break;
+        case "locations":
+          fetchLocations();
+          break;
+        case "characters":
+          fetchCharacters();
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -175,20 +204,24 @@ function App() {
   };
 
   useEffect(() => {
-    clearResults();
-    fetchCharacters();
-  }, [page]);
+    setPage(1);
+  }, [currentTab]);
 
   useEffect(() => {
-    // Fetch data depending on the currentTab state
-    if (currentTab === "episodes") {
-      fetchEpisodes();
-    } else if (currentTab === "locations") {
-      fetchLocations();
-    } else {
-      fetchCharacters();
+    switch (currentTab) {
+      case "episodes":
+        fetchEpisodes();
+        break;
+      case "locations":
+        fetchLocations();
+        break;
+      case "characters":
+        fetchCharacters();
+        break;
+      default:
+        break;
     }
-  }, [currentTab]);
+  }, [page]);
 
   return (
     <div className="App">
@@ -208,26 +241,6 @@ function App() {
         handleNext={handleNext}
         handlePrevious={handlePrevious}
       />
-
-      {/*       <main>
-        <div id="results">
-          {characters.map((character) => (
-            <div key={character.id} className="item-wrapper">
-              <h2>{character.name}</h2>
-              <img src={character.image} alt={character.name} />
-              <p>{character.species}</p>
-              <p>{character.origin.name}</p>
-              <p>{character.status}</p>
-              <p>{character.gender}</p>
-            </div>
-          ))}
-        </div>
-        <div>
-          <button onClick={handlePrevious}>Previous</button>
-
-          <button onClick={handleNext}>Next</button>
-        </div>
-      </main> */}
     </div>
   );
 }
