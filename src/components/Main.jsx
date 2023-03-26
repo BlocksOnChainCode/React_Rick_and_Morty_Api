@@ -40,6 +40,7 @@ const Characters = ({ characters }) => {
             <h2>{character.name}</h2>
             <img src={character.image} alt={character.name} />
             <p>{character.species}</p>
+            <p>{character.status}</p>
           </div>
         ))}
       </div>

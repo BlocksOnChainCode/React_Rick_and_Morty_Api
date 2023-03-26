@@ -4,6 +4,12 @@
   padding: 20px;
   text-align: center;
 }
+.App header input[type=text] {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-left: 20px;
+}
 .App nav {
   background-color: #f1f1f1;
   padding: 10px;
@@ -12,6 +18,7 @@
   align-items: center;
 }
 .App nav button {
+  margin: 1rem;
   background-color: #ff8c00;
   border: none;
   color: #fff;
@@ -23,12 +30,6 @@
 }
 .App nav button:hover {
   background-color: #e68a00;
-}
-.App nav input[type=text] {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  margin-left: 20px;
 }
 .App Main {
   max-width: 1200px;
@@ -62,12 +63,19 @@
   border-radius: 1rem;
 }
 .App Main #results .item-wrapper h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 .App Main #results .item-wrapper p {
   margin-bottom: 5px;
 }
-.App button {
+.App #buttons-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+.App #buttons-container button {
   background-color: #ff8c00;
   border: none;
   color: #fff;
@@ -77,9 +85,9 @@
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
-.App button:hover {
+.App #buttons-container button:hover {
   background-color: #e68a00;
 }
-.App button + button {
+.App #buttons-container button + button {
   margin-left: 20px;
 }/*# sourceMappingURL=App.css.map */

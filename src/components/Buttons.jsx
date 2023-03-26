@@ -3,7 +3,7 @@
 // ? It is used taking in the handleNext and handlePrevious functions as props from the App component.
 const Buttons = (props) => {
   return (
-    <div>
+    <div id="buttons-container">
       <button onClick={props.handlePrevious}>Previous</button>
       <button onClick={props.handleNext}>Next</button>
     </div>
