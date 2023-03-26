@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
 import { Header, Navigation, Buttons } from "./components";
+/* import {
+  fetchCharacters,
+  fetchEpisodes,
+  fetchLocations,
+  fetchFunction,
+  fetchFunctions,
+} from "./javascript"; */
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
@@ -30,8 +37,8 @@ const Main = ({
               </div>
             ))}
           </div>
-          <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
         </main>
+        <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
       </>
     );
   } else if (currentTab === "locations") {
@@ -47,8 +54,8 @@ const Main = ({
               </div>
             ))}
           </div>
-          <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
         </main>
+        <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
       </>
     );
   } else if (currentTab === "characters") {
@@ -66,8 +73,8 @@ const Main = ({
                 <p>{character.gender}</p>
               </div>
             ))}
-            <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
           </div>
+          <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
         </main>
       </>
     );
@@ -88,106 +95,92 @@ function App() {
   const episodesUrl = `https://rickandmortyapi.com/api/episode?page=${page}`;
   const locationsUrl = `https://rickandmortyapi.com/api/location?page=${page}`;
 
-  const filterCharacters = (event) => {
-    //! Will be used to filter characters
-    const searchValue = event.target.value;
-    console.log(searchValue);
-  };
-
-  const fetchEpisodes = async () => {
-    const response = await fetch(episodesUrl);
-    const data = await response.json();
-    console.log(data);
-    if (data.error) {
-      setPage(page - 1);
-      return;
-    }
-    setEpisodes(data.results);
-    setCurrentTab("episodes");
-  };
-
-  const fetchLocations = async () => {
-    const response = await fetch(locationsUrl);
-    const data = await response.json();
-    console.log(data);
-    setLocations(data.results);
-    setCurrentTab("locations");
-  };
-
-  const fetchCharacters = async () => {
-    const response = await fetch(charactersUrl);
-    const data = await response.json();
-    console.log(data);
-    setCharacters(data.results);
-    setCurrentTab("characters");
-  };
-
-  const handleNext = () => {
-    setPage(page + 1);
+  const handleNavigation = (event) => {
+    const tab = event.target.textContent.toLowerCase();
+    setCurrentTab(tab);
+    setPage(1);
     clearResults();
-
-    switch (currentTab) {
-      case "episodes":
-        fetchEpisodes();
-        break;
-      case "locations":
-        fetchLocations();
-        break;
-      case "characters":
-        fetchCharacters();
-        break;
-      default:
-        break;
-    }
   };
 
-  const handlePrevious = () => {
-    if (page > 1) {
-      setPage(page - 1);
-      clearResults();
-
-      switch (currentTab) {
-        case "episodes":
-          fetchEpisodes();
-          break;
-        case "locations":
-          fetchLocations();
-          break;
-        case "characters":
-          fetchCharacters();
-          break;
-        default:
-          break;
-      }
-    }
-  };
-
-  /* Function to empty result container */
   const clearResults = () => {
     setCharacters([]);
     setEpisodes([]);
     setLocations([]);
   };
 
-  useEffect(() => {
-    setPage(1);
-  }, [currentTab]);
+  const handleNext = () => {
+    setPage(page + 1);
+  };
+
+  const handlePrevious = () => {
+    setPage(page - 1);
+  };
+
+  const filterCharacters = (event) => {
+    setSearchValue(event.target.value);
+  };
 
   useEffect(() => {
-    switch (currentTab) {
-      case "episodes":
-        fetchEpisodes();
-        break;
-      case "locations":
-        fetchLocations();
-        break;
-      case "characters":
-        fetchCharacters();
-        break;
-      default:
-        break;
-    }
-  }, [page]);
+    fetch(charactersUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCharacters(data.results);
+      })
+      .catch((error) => {
+        if (error.message === "404") {
+          setPage(page - 1);
+        }
+      });
+  }, [charactersUrl, page]);
+
+  useEffect(() => {
+    fetch(episodesUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setEpisodes(data.results);
+      })
+      .catch((error) => {
+        if (error.message === "404") {
+          setPage(page - 1);
+        }
+      });
+  }, [episodesUrl, page]);
+
+  useEffect(() => {
+    fetch(locationsUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setLocations(data.results);
+      })
+      .catch((error) => {
+        if (error.message === "404") {
+          setPage(page - 1);
+        }
+      });
+  }, [locationsUrl, page]);
+
+  useEffect(() => {
+    const filteredCharacters = characters.filter((character) => {
+      return character.name.toLowerCase().includes(searchValue.toLowerCase());
+    });
+
+    setCharacters(filteredCharacters);
+  }, [searchValue]);
 
   return (
     <div className="App">
@@ -197,6 +190,7 @@ function App() {
         filterCharacters={filterCharacters}
         setCurrentTab={setCurrentTab}
         currentTab={currentTab}
+        handleNavigation={handleNavigation}
       />
 
       <Main

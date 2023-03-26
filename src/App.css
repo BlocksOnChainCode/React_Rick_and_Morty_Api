@@ -30,44 +30,44 @@
   border-radius: 5px;
   margin-left: 20px;
 }
-.App main {
+.App Main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
-.App main #results {
+.App Main #results {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 @media (max-width: 768px) {
-  .App main #results {
+  .App Main #results {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (max-width: 992px) {
-  .App main #results {
+  .App Main #results {
     grid-template-columns: 1fr;
   }
 }
-.App main #results .item-wrapper {
+.App Main #results .item-wrapper {
   background-color: #f1f1f1;
   border-radius: 5px;
   padding: 20px;
   text-align: center;
 }
-.App main #results .item-wrapper img {
+.App Main #results .item-wrapper img {
   width: 100%;
   margin: 10px 0;
   border-radius: 1rem;
 }
-.App main #results .item-wrapper h2 {
+.App Main #results .item-wrapper h2 {
   margin-bottom: 10px;
 }
-.App main #results .item-wrapper p {
+.App Main #results .item-wrapper p {
   margin-bottom: 5px;
 }
-.App main button {
+.App button {
   background-color: #ff8c00;
   border: none;
   color: #fff;
@@ -77,9 +77,9 @@
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
-.App main button:hover {
+.App button:hover {
   background-color: #e68a00;
 }
-.App main button + button {
+.App button + button {
   margin-left: 20px;
 }/*# sourceMappingURL=App.css.map */
