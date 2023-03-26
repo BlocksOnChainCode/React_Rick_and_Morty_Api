@@ -4,12 +4,22 @@ import "bootstrap/dist/js/bootstrap.min.js";
 
 import "./App.css";
 
+const Header = () => {
+  return (
+    <header>
+      <h1>Altcademy Movie Finder Rick and Morty</h1>
+      <p>React Movie finder Rick and Morty edition</p>
+    </header>
+  );
+};
+
 function App() {
   const [characters, setCharacters] = useState([]);
   const [episodes, setEpisodes] = useState([]);
   const [locations, setLocations] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(1);
+  const [currentTab, setCurrentTab] = useState("episodes");
 
   const charactersUrl = `https://rickandmortyapi.com/api/character/?page=${page}`;
   const episodesUrl = "https://rickandmortyapi.com/api/episode";
@@ -26,6 +36,7 @@ function App() {
     const data = await response.json();
     console.log(data);
     setEpisodes(data.results);
+    setCurrentTab("episodes");
   };
 
   const fetchLocations = async () => {
@@ -33,6 +44,7 @@ function App() {
     const data = await response.json();
     console.log(data);
     setLocations(data.results);
+    setCurrentTab("locations");
   };
 
   const fetchCharacters = async () => {
@@ -40,6 +52,7 @@ function App() {
     const data = await response.json();
     console.log(data);
     setCharacters(data.results);
+    setCurrentTab("characters");
   };
 
   const handleNext = () => {
@@ -68,13 +81,21 @@ function App() {
     fetchCharacters();
   }, [page]);
 
+  useEffect(() => {
+    // Fetch data depending on the currentTab state
+    if (currentTab === "episodes") {
+      fetchEpisodes();
+    } else if (currentTab === "locations") {
+      fetchLocations();
+    } else {
+      fetchCharacters();
+    }
+  }, [currentTab]);
+
   return (
     <div className="App">
-      {/* //! header */}
-      <header>
-        <h1>Altcademy Movie Finder Rick and Morty</h1>
-        <p>React Movie finder Rick and Morty edition</p>
-      </header>
+      {/* APP */}
+      <Header />
 
       <nav>
         <button onClick={fetchEpisodes}>Episodes</button>
