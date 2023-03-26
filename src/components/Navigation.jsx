@@ -4,13 +4,9 @@
 const Navigation = (props) => {
   return (
     <nav>
-      <button onClick={() => props.setCurrentTab("characters")}>
-        Characters
-      </button>
-      <button onClick={() => props.setCurrentTab("episodes")}>Episodes</button>
-      <button onClick={() => props.setCurrentTab("locations")}>
-        Locations
-      </button>
+      <button onClick={(e) => props.handleNavigation(e)}>Characters</button>
+      <button onClick={(e) => props.handleNavigation(e)}>Episodes</button>
+      <button onClick={(e) => props.handleNavigation(e)}>Locations</button>
     </nav>
   );
 };

@@ -42,7 +42,7 @@ function useFetch(url) {
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
-  const [currentTab, setCurrentTab] = useState("episodes");
+  const [currentTab, setCurrentTab] = useState("characters");
 
   const [characters, setCharactersPage] = useFetch(
     "https://rickandmortyapi.com/api/character"
@@ -60,12 +60,6 @@ function App() {
     setCharactersPage(1);
     setEpisodesPage(1);
     setLocationsPage(1);
-  };
-
-  const clearResults = () => {
-    setCharactersPage([]);
-    setEpisodesPage([]);
-    setLocationsPage([]);
   };
 
   const handleNext = () => {
@@ -104,3 +98,11 @@ function App() {
 }
 
 export default App;
+
+/**
+ * TODO: Make characters clickable and display more information???
+ * TODO: Make A Search bar???? (Maybe)
+ * TODO: Style cards and make them look better
+ * TODO: Maybe a bootstrap modal for the characters extra info???
+ * TODO: Deploy to github pages...
+ */
