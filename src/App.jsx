@@ -18,15 +18,98 @@ const Header = () => {
 const Navigation = (props) => {
   return (
     <nav>
-      <button onClick={() => setCurrentTab("episodes")}>Episodes</button>
-      <button onClick={() => setCurrentTab("characters")}>Characters</button>
-      <button onClick={() => setCurrentTab("locations")}>Locations</button>
+      <button onClick={() => props.setCurrentTab("episodes")}>Episodes</button>
+      <button onClick={() => props.setCurrentTab("characters")}>
+        Characters
+      </button>
+      <button onClick={() => props.setCurrentTab("locations")}>
+        Locations
+      </button>
       <input type="text" onChange={props.filterCharacters} />
     </nav>
   );
 };
 
 //! Main component
+const Main = ({
+  currentTab,
+  handleNext,
+  handlePrevious,
+  episodes,
+  episode,
+  locations,
+  characters,
+}) => {
+  let results = null;
+
+  if (currentTab === "episodes") {
+    results = (
+      <>
+        <main>
+          <div id="results">
+            {episodes.map((episode) => (
+              <div key={episode.id} className="item-wrapper">
+                <h2>{episode.name}</h2>
+                <p>{episode.episode}</p>
+                <p>{episode.air_date}</p>
+              </div>
+            ))}
+          </div>
+          <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
+        </main>
+      </>
+    );
+  } else if (currentTab === "locations") {
+    results = (
+      <>
+        <main>
+          <div id="results">
+            {locations.map((location) => (
+              <div key={location.id} className="item-wrapper">
+                <h2>{location.name}</h2>
+                <p>{location.type}</p>
+                <p>{location.dimension}</p>
+              </div>
+            ))}
+          </div>
+          <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
+        </main>
+      </>
+    );
+  } else if (currentTab === "characters") {
+    results = (
+      <>
+        <main>
+          <div id="results">
+            {characters.map((character) => (
+              <div key={character.id} className="item-wrapper">
+                <h2>{character.name}</h2>
+                <img src={character.image} alt={character.name} />
+                <p>{character.species}</p>
+                <p>{character.origin.name}</p>
+                <p>{character.status}</p>
+                <p>{character.gender}</p>
+              </div>
+            ))}
+            <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
+          </div>
+        </main>
+      </>
+    );
+  }
+
+  return results;
+};
+
+const Buttons = (props) => {
+  return (
+    <div>
+      <button onClick={props.handlePrevious}>Previous</button>
+      {/* Onclick increment page state by one */}
+      <button onClick={props.handleNext}>Next</button>
+    </div>
+  );
+};
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -111,10 +194,22 @@ function App() {
     <div className="App">
       {/* APP */}
       <Header />
-      <Navigation />
+      <Navigation
+        filterCharacters={filterCharacters}
+        setCurrentTab={setCurrentTab}
+        currentTab={currentTab}
+      />
 
-      {/* //! main */}
-      <main>
+      <Main
+        currentTab={currentTab}
+        episodes={episodes}
+        locations={locations}
+        characters={characters}
+        handleNext={handleNext}
+        handlePrevious={handlePrevious}
+      />
+
+      {/*       <main>
         <div id="results">
           {characters.map((character) => (
             <div key={character.id} className="item-wrapper">
@@ -129,10 +224,10 @@ function App() {
         </div>
         <div>
           <button onClick={handlePrevious}>Previous</button>
-          {/* Onclick increment page state by one */}
+
           <button onClick={handleNext}>Next</button>
         </div>
-      </main>
+      </main> */}
     </div>
   );
 }
