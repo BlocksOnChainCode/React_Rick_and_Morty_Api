@@ -1,87 +1,9 @@
 import { useState, useEffect } from "react";
-import { Header, Navigation, Buttons } from "./components";
-/* import {
-  fetchCharacters,
-  fetchEpisodes,
-  fetchLocations,
-  fetchFunction,
-  fetchFunctions,
-} from "./javascript"; */
+import { Header, Navigation, Buttons, Main } from "./components";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 import "./App.css";
-
-//! Main component
-const Main = ({
-  currentTab,
-  handleNext,
-  handlePrevious,
-  episodes,
-  episode,
-  locations,
-  characters,
-}) => {
-  let results = null;
-
-  if (currentTab === "episodes") {
-    results = (
-      <>
-        <main>
-          <div id="results">
-            {episodes.map((episode) => (
-              <div key={episode.id} className="item-wrapper">
-                <h2>{episode.name}</h2>
-                <p>{episode.episode}</p>
-                <p>{episode.air_date}</p>
-              </div>
-            ))}
-          </div>
-        </main>
-        <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
-      </>
-    );
-  } else if (currentTab === "locations") {
-    results = (
-      <>
-        <main>
-          <div id="results">
-            {locations.map((location) => (
-              <div key={location.id} className="item-wrapper">
-                <h2>{location.name}</h2>
-                <p>{location.type}</p>
-                <p>{location.dimension}</p>
-              </div>
-            ))}
-          </div>
-        </main>
-        <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
-      </>
-    );
-  } else if (currentTab === "characters") {
-    results = (
-      <>
-        <main>
-          <div id="results">
-            {characters.map((character) => (
-              <div key={character.id} className="item-wrapper">
-                <h2>{character.name}</h2>
-                <img src={character.image} alt={character.name} />
-                <p>{character.species}</p>
-                <p>{character.origin.name}</p>
-                <p>{character.status}</p>
-                <p>{character.gender}</p>
-              </div>
-            ))}
-          </div>
-          <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
-        </main>
-      </>
-    );
-  }
-
-  return results;
-};
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -201,6 +123,7 @@ function App() {
         handleNext={handleNext}
         handlePrevious={handlePrevious}
       />
+      <Buttons handleNext={handleNext} handlePrevious={handlePrevious} />
     </div>
   );
 }

@@ -11,6 +11,7 @@ const Navigation = (props) => {
       <button onClick={() => props.setCurrentTab("locations")}>
         Locations
       </button>
+      <input type="text" />
     </nav>
   );
 };
