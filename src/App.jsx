@@ -4,6 +4,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 
 import "./App.css";
 
+//! Header component
 const Header = () => {
   return (
     <header>
@@ -12,6 +13,20 @@ const Header = () => {
     </header>
   );
 };
+
+//! Navigation component
+const Navigation = (props) => {
+  return (
+    <nav>
+      <button onClick={() => setCurrentTab("episodes")}>Episodes</button>
+      <button onClick={() => setCurrentTab("characters")}>Characters</button>
+      <button onClick={() => setCurrentTab("locations")}>Locations</button>
+      <input type="text" onChange={props.filterCharacters} />
+    </nav>
+  );
+};
+
+//! Main component
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -96,13 +111,7 @@ function App() {
     <div className="App">
       {/* APP */}
       <Header />
-
-      <nav>
-        <button onClick={fetchEpisodes}>Episodes</button>
-        <button onClick={fetchCharacters}>Characters</button>
-        <button onClick={fetchLocations}>Locations</button>
-        <input type="text" />
-      </nav>
+      <Navigation />
 
       {/* //! main */}
       <main>
