@@ -32,21 +32,25 @@
   background-color: #e68a00;
 }
 .App Main {
-  width: 100%;
   margin: 0 auto;
   padding: 20px;
 }
 .App Main #results {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
+}
+@media (max-width: 992px) {
+  .App Main #results {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 @media (max-width: 768px) {
   .App Main #results {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 480px) {
   .App Main #results {
     grid-template-columns: 1fr;
   }
@@ -94,4 +98,20 @@
 }
 .App #buttons-container button + button {
   margin-left: 20px;
+}
+
+@media (max-width: 992px) {
+  .App Main #results {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .App Main #results {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .App Main #results {
+    grid-template-columns: 1fr;
+  }
 }/*# sourceMappingURL=App.css.map */

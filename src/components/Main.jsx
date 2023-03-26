@@ -38,7 +38,11 @@ const Characters = ({ characters }) => {
         {characters.map((character) => (
           <div key={character.id} className="item-wrapper">
             <h2>{character.name}</h2>
-            <img src={character.image} alt={character.name} />
+            <img
+              className="img-fluid"
+              src={character.image}
+              alt={character.name}
+            />
             <p>{character.species}</p>
             <p>{character.status}</p>
           </div>
