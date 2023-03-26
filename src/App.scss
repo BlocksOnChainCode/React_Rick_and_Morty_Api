@@ -58,9 +58,13 @@ $break-lg: 992px;
       }
 
       .item-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         background-color: #f1f1f1;
         border-radius: 5px;
-        padding: 20px;
+        padding: 25px;
         text-align: center;
 
         img {

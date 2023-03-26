@@ -4,7 +4,7 @@ const Header = () => {
     <header>
       <h1>Altcademy Movie Finder Rick and Morty</h1>
       <p>React Movie finder Rick and Morty edition</p>
-      <input type="text" placeholder="Search:" />
+      {/* <input type="text" placeholder="Search:" /> */}
     </header>
   );
 };

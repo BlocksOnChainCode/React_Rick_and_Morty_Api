@@ -5,111 +5,86 @@ import "bootstrap/dist/js/bootstrap.min.js";
 
 import "./App.css";
 
-function App() {
-  const [characters, setCharacters] = useState([]);
-  const [episodes, setEpisodes] = useState([]);
-  const [locations, setLocations] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+function useFetch(url) {
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`${url}?page=${page}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (isMounted) {
+          setData(data.results);
+          setError(null);
+        }
+      })
+      .catch((error) => {
+        if (isMounted) {
+          console.log(error);
+          setPage((prevPage) => prevPage - 1);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [url, page, data]);
+
+  return [data, setPage, error];
+}
+
+function App() {
+  const [searchValue, setSearchValue] = useState("");
   const [currentTab, setCurrentTab] = useState("episodes");
 
-  const charactersUrl = `https://rickandmortyapi.com/api/character/?page=${page}`;
-  const episodesUrl = `https://rickandmortyapi.com/api/episode?page=${page}`;
-  const locationsUrl = `https://rickandmortyapi.com/api/location?page=${page}`;
+  const [characters, setCharactersPage] = useFetch(
+    "https://rickandmortyapi.com/api/character"
+  );
+  const [episodes, setEpisodesPage] = useFetch(
+    "https://rickandmortyapi.com/api/episode"
+  );
+  const [locations, setLocationsPage] = useFetch(
+    "https://rickandmortyapi.com/api/location"
+  );
 
   const handleNavigation = (event) => {
     const tab = event.target.textContent.toLowerCase();
     setCurrentTab(tab);
-    setPage(1);
-    clearResults();
+    setCharactersPage(1);
+    setEpisodesPage(1);
+    setLocationsPage(1);
   };
 
   const clearResults = () => {
-    setCharacters([]);
-    setEpisodes([]);
-    setLocations([]);
+    setCharactersPage([]);
+    setEpisodesPage([]);
+    setLocationsPage([]);
   };
 
   const handleNext = () => {
-    setPage(page + 1);
+    setCharactersPage((prevPage) => prevPage + 1);
+    setEpisodesPage((prevPage) => prevPage + 1);
+    setLocationsPage((prevPage) => prevPage + 1);
   };
 
   const handlePrevious = () => {
-    setPage(page - 1);
+    setCharactersPage((prevPage) => prevPage - 1);
+    setEpisodesPage((prevPage) => prevPage - 1);
+    setLocationsPage((prevPage) => prevPage - 1);
   };
-
-  const filterCharacters = (event) => {
-    setSearchValue(event.target.value);
-  };
-
-  useEffect(() => {
-    fetch(charactersUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCharacters(data.results);
-      })
-      .catch((error) => {
-        if (error.message === "404") {
-          setPage(page - 1);
-        }
-      });
-  }, [charactersUrl, page]);
-
-  useEffect(() => {
-    fetch(episodesUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setEpisodes(data.results);
-      })
-      .catch((error) => {
-        if (error.message === "404") {
-          setPage(page - 1);
-        }
-      });
-  }, [episodesUrl, page]);
-
-  useEffect(() => {
-    fetch(locationsUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setLocations(data.results);
-      })
-      .catch((error) => {
-        if (error.message === "404") {
-          setPage(page - 1);
-        }
-      });
-  }, [locationsUrl, page]);
-
-  useEffect(() => {
-    const filteredCharacters = characters.filter((character) => {
-      return character.name.toLowerCase().includes(searchValue.toLowerCase());
-    });
-
-    setCharacters(filteredCharacters);
-  }, [searchValue]);
 
   return (
     <div className="App">
       {/* APP */}
       <Header />
       <Navigation
-        filterCharacters={filterCharacters}
         setCurrentTab={setCurrentTab}
         currentTab={currentTab}
         handleNavigation={handleNavigation}
