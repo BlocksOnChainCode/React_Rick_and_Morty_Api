@@ -104,5 +104,5 @@ export default App;
  * TODO: Make A Search bar???? (Maybe)
  * TODO: Style cards and make them look better
  * TODO: Maybe a bootstrap modal for the characters extra info???
- * TODO: Deploy to github pages...
+ * TODO: Deploy to github pages....
  */
