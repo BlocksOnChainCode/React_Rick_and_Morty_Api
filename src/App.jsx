@@ -1,34 +1,9 @@
 import { useState, useEffect } from "react";
+import { Header, Navigation, Buttons } from "./components";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 import "./App.css";
-
-//! Header component
-const Header = () => {
-  return (
-    <header>
-      <h1>Altcademy Movie Finder Rick and Morty</h1>
-      <p>React Movie finder Rick and Morty edition</p>
-    </header>
-  );
-};
-
-//! Navigation component
-const Navigation = (props) => {
-  return (
-    <nav>
-      <button onClick={() => props.setCurrentTab("episodes")}>Episodes</button>
-      <button onClick={() => props.setCurrentTab("characters")}>
-        Characters
-      </button>
-      <button onClick={() => props.setCurrentTab("locations")}>
-        Locations
-      </button>
-      <input type="text" onChange={props.filterCharacters} />
-    </nav>
-  );
-};
 
 //! Main component
 const Main = ({
@@ -99,15 +74,6 @@ const Main = ({
   }
 
   return results;
-};
-
-const Buttons = (props) => {
-  return (
-    <div>
-      <button onClick={props.handlePrevious}>Previous</button>
-      <button onClick={props.handleNext}>Next</button>
-    </div>
-  );
 };
 
 function App() {
