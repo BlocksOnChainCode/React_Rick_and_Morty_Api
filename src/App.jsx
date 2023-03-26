@@ -5,6 +5,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 
 import "./App.css";
 
+// ? Fetching data from the API, using the url and page number as parameters.
 function useFetch(url) {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -40,10 +41,9 @@ function useFetch(url) {
   return [data, setPage, error];
 }
 
+// ! App component
 function App() {
-  const [searchValue, setSearchValue] = useState("");
   const [currentTab, setCurrentTab] = useState("characters");
-
   const [characters, setCharactersPage] = useFetch(
     "https://rickandmortyapi.com/api/character"
   );
@@ -54,6 +54,7 @@ function App() {
     "https://rickandmortyapi.com/api/location"
   );
 
+  // ! helper functions
   const handleNavigation = (event) => {
     const tab = event.target.textContent.toLowerCase();
     setCurrentTab(tab);
@@ -105,4 +106,8 @@ export default App;
  * TODO: Style cards and make them look better
  * TODO: Maybe a bootstrap modal for the characters extra info???
  * TODO: Deploy to github pages....
+ *
+ * ? API used: https://rickandmortyapi.com/
+ * ? API documentation: https://rickandmortyapi.com/documentation/
+ *
  */
