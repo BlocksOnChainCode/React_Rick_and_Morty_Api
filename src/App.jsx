@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
@@ -8,8 +8,10 @@ function App() {
   const [characters, setCharacters] = useState([]);
   const [episodes, setEpisodes] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [page, setPage] = useState(1);
 
-  const charactersUrl = "https://rickandmortyapi.com/api/character/?page=2";
+  const charactersUrl = `https://rickandmortyapi.com/api/character/?page=${page}`;
   const episodesUrl = "https://rickandmortyapi.com/api/episode";
   const locationsUrl = "https://rickandmortyapi.com/api/location";
 
@@ -40,6 +42,32 @@ function App() {
     setCharacters(data.results);
   };
 
+  const handleNext = () => {
+    setPage(page + 1);
+    clearResults();
+    fetchCharacters();
+  };
+
+  const handlePrevious = () => {
+    if (page > 1) {
+      setPage(page - 1);
+      clearResults();
+      fetchCharacters();
+    }
+  };
+
+  /* Function to empty result container */
+  const clearResults = () => {
+    setCharacters([]);
+    setEpisodes([]);
+    setLocations([]);
+  };
+
+  useEffect(() => {
+    clearResults();
+    fetchCharacters();
+  }, [page]);
+
   return (
     <div className="App">
       {/* //! header */}
@@ -59,11 +87,20 @@ function App() {
       <main>
         <div id="results">
           {characters.map((character) => (
-            <div key={character.id}>
+            <div key={character.id} className="item-wrapper">
               <h2>{character.name}</h2>
               <img src={character.image} alt={character.name} />
+              <p>{character.species}</p>
+              <p>{character.origin.name}</p>
+              <p>{character.status}</p>
+              <p>{character.gender}</p>
             </div>
           ))}
+        </div>
+        <div>
+          <button onClick={handlePrevious}>Previous</button>
+          {/* Onclick increment page state by one */}
+          <button onClick={handleNext}>Next</button>
         </div>
       </main>
     </div>
